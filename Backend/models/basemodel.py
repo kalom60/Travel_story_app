@@ -21,3 +21,14 @@ class BaseModel:
         if kwargs:
             for key, value in kwargs.items():
                 setattr(self, key, value)
+
+
+    def to_dict(self):
+        """return a dictionary all instances of the class"""
+        dict = {}
+        dict.update(self.__dict__)
+        if '_sa_instance_state' in dict:
+            del dict['_sa_instance_state']
+        dict['created_at'] = self.created_at.isoformat()
+        return dict
+        
