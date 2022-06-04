@@ -47,3 +47,8 @@ class DBHandler:
         if obj is not None:
             self.__session.delete(obj)
 
+    def close(self):
+        """to close a session"""
+        self.__session.close()
+        self.reload()
+
