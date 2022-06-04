@@ -26,6 +26,12 @@ class DBHandler:
             key = type(obj).__name__ + '.' + obj.id
             dict[key] = obj
         return dict
+    
+    def new(self, obj):
+        """add new object to database"""
+        self.__session.add(obj)
+
+
 
     def reload(self):
         """launch the database"""
