@@ -19,5 +19,14 @@ class Command(cmd.Cmd):
         """an empty line + Enter should execute nothing"""
         pass
 
+    @staticmethod
+    def parse(line):
+        """split all args and return list"""
+        if len(line) == 0:
+            return []
+        return line.split(' ')
+
+
+
 if __name__ == '__main__':
     Command().cmdloop()
