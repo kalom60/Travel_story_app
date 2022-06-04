@@ -9,7 +9,7 @@ app = Flask(__name__)
 @app.route('/', strict_slashes=False)
 def index():
     """index page"""
-    return "Hello Flask"
+    return 'Hello Flask'
 
 if __name__ == '__main__':
     app.run(debug=True)
