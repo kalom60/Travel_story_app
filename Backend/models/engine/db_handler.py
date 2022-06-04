@@ -41,4 +41,9 @@ class DBHandler:
         session_factor = sessionmaker(bind=self.__engine)
         Session = scoped_session(session_factor)
         self.__session = Session()
+        
+    def delete(self, obj=None):
+        """deletes an object from database"""
+        if obj is not None:
+            self.__session.delete(obj)
 
