@@ -31,7 +31,9 @@ class DBHandler:
         """add new object to database"""
         self.__session.add(obj)
 
-
+    def save(self):
+        """save object to database"""
+        self.__session.commit()
 
     def reload(self):
         """launch the database"""
