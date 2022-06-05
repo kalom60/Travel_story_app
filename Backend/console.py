@@ -124,14 +124,8 @@ class Command(cmd.Cmd):
                                 res = False
                     else:
                         obj[value] = input(f'{value}: ')
-                if args[0] == 'User':
-                    new_user = User(**obj)
-                    storage.new(new_user)
-                    storage.save()
-                else:
-                    new_story = Story(**obj)
-                    storage.new(new_story)
-                    storage.save()
+                new_obj = Command.__classes[args[0]](**obj)
+                new_obj.save()
             else:
                 print('** class doesn\'t exist **')
             
