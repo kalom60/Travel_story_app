@@ -70,6 +70,30 @@ class Command(cmd.Cmd):
                     print('** instance id missing **')
             else:
                 print('** class doesn\'t exist **')
+
+    def do_delete(self, arg):
+        """
+        deletes an onject of a class based
+        on class name and id
+        Ex: $ delete User 1234-1234-1234-1234
+        """
+        args = Command.parse(arg)
+        if len(args) == 0:
+            print('** class name missing **')
+        else:
+            if args[0] in Command.__classes.keys():
+                if len(args) >= 2:
+                    if f'{args[0]}.{args[1]}' in\
+                            storage.all(Command.__classes[args[0]]).keys():
+                        storage.delete(storage.all(Command.__classes[args[0]])\
+                                [f'{args[0]}.{args[1]}'])
+                        print('** Deletion Complete **')
+                    else:
+                        print('** no instance found **')
+                else:
+                    print('** instance id missing **')
+            else:
+                print('** class doesn\'t exist **')
             
 if __name__ == '__main__':
     Command().cmdloop()
