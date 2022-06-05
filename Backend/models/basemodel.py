@@ -4,6 +4,7 @@
 from datetime import datetime
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
+import models
 import uuid
 
 Base = declarative_base()
@@ -22,6 +23,11 @@ class BaseModel:
         if kwargs:
             for key, value in kwargs.items():
                 setattr(self, key, value)
+
+    def save(self):
+        """save an instance"""
+        models.storage.new(self)
+        models.storage.save()
 
     def to_dict(self):
         """return a dictionary all instances of the class"""
