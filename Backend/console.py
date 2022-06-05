@@ -14,6 +14,10 @@ class Command(cmd.Cmd):
         User.__name__: User,
         Story.__name__: Story
     }
+    __classes_columns = {
+        'User': ['username', 'email', 'password'],
+        'Story': ['title', 'Country', 'City', 'story', 'user_id']
+    }
 
     def do_quit(self, arg):
         """Exit the console"""
@@ -87,11 +91,47 @@ class Command(cmd.Cmd):
                             storage.all(Command.__classes[args[0]]).keys():
                         storage.delete(storage.all(Command.__classes[args[0]])\
                                 [f'{args[0]}.{args[1]}'])
+                        storage.save()
                         print('** Deletion Complete **')
                     else:
                         print('** no instance found **')
                 else:
                     print('** instance id missing **')
+            else:
+                print('** class doesn\'t exist **')
+
+    def do_create(self, arg):
+        """
+        creates an onbject of a class based
+        on class name
+        Ex: $ create User
+        """
+        args = Command.parse(arg)
+        if len(args) == 0:
+            print('** class name missing **')
+        else:
+            if args[0] in Command.__classes.keys():
+                values = Command.__classes_columns[args[0]]
+                obj = {}
+                for value in values:
+                    if value != 'City':
+                        res = True
+                        while res:
+                            obj[value] = input(f'{value}: ')
+                            if len(obj[value].strip()) == 0:
+                                print('** can\'t be null **')
+                            else:
+                                res = False
+                    else:
+                        obj[value] = input(f'{value}: ')
+                if args[0] == 'User':
+                    new_user = User(**obj)
+                    storage.new(new_user)
+                    storage.save()
+                else:
+                    new_story = Story(**obj)
+                    storage.new(new_story)
+                    storage.save()
             else:
                 print('** class doesn\'t exist **')
             
