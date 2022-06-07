@@ -19,4 +19,4 @@ def close(exception):
     storage.close()
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='localhost', port='5003', threaded=True, debug=True)
