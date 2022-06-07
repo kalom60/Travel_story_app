@@ -17,8 +17,18 @@ def all_story():
 @views.route('/story/<id>', methods=['GET'], strict_slashes=False)
 def find_story(id):
     """return a specific story based on id"""
-    for posts in storage.all(Story).values():
-        posts = posts.to_dict()
-        if id == posts['id']:
-            return jsonify(posts)
+    for post in storage.all(Story).values():
+        post = post.to_dict()
+        if id == post['id']:
+            return jsonify(post)
+    return abort(404)
+
+@views.route('/story/<id>', methods=['DELETE'], strict_slashes=False)
+def del_story(id):
+    """delete a specific story based on id"""
+    for k, v in storage.all(Story).items():
+        if id in k:
+            storage.delete(v)
+            storage.save()
+            return make_response(jsonify({}), 200)
     return abort(404)
