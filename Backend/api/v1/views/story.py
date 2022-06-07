@@ -13,3 +13,12 @@ def all_story():
     for post in storage.all(Story).values():
         story.append(post.to_dict())
     return jsonify(story)
+
+@views.route('/story/<id>', methods=['GET'], strict_slashes=False)
+def find_story(id):
+    """return a specific story based on id"""
+    for posts in storage.all(Story).values():
+        posts = posts.to_dict()
+        if id == posts['id']:
+            return jsonify(posts)
+    return abort(404)
