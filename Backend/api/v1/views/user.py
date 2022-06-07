@@ -2,7 +2,7 @@
 """create user API routes"""
 
 from api.v1.views import views
-from flask import jsonify, abort, make_response
+from flask import jsonify, abort, make_response, request
 from models.user import User
 from models import storage
 
@@ -35,3 +35,24 @@ def del_user(id):
             storage.save()
             return make_response(jsonify({}), 200)
     return abort(404)
+
+@views.route('/user', methods=['POST'], strict_slashes=False)
+def post_user():
+    """create a user"""
+    if not request.get_json():
+        abort(400, description="Not a json")
+
+    if 'email' not in request.get_json():
+        abort(400, description="Missing email")
+
+    if 'username' not in request.get_json():
+        abort(400, description="Missing username")
+
+    if 'password' not in request.get_json():
+        abort(400, description="Missing password")
+
+    new_obj = request.get_json()
+    user = User(**new_obj)
+    obj = user.to_dict()
+    user.save()
+    return make_response(jsonify(obj), 201)
