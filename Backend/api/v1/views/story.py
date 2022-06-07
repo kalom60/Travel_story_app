@@ -32,3 +32,27 @@ def del_story(id):
             storage.save()
             return make_response(jsonify({}), 200)
     return abort(404)
+
+@views.route('/story', methods=['POST'], strict_slashes=False)
+def post_story():
+    """create a story instance"""
+    if not request.get_json():
+        abort(400, description="Not a JSON")
+
+    if 'title' not in request.get_json():
+        abort(400, description="Missing title")
+
+    if 'Country' not in request.get_json():
+        abort(400, description="Missing Country")
+
+    if 'story' not in request.get_json():
+        abort(400, description="Missing story")
+
+    if 'user_id' not in request.get_json():
+        abort(400, description="Missing user_id")
+
+    new_obj = request.get_json()
+    story = Story(**new_obj)
+    obj = story.to_dict()
+    story.save()
+    return make_response(jsonify(obj), 201)
